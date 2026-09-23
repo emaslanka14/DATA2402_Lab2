@@ -8,19 +8,19 @@ def load_stopwords(filename: str) -> set:
         text = f.read().lower()
     return set(text.split())
 
-def get_occurrences(words: list) -> dict:
+def get_term_freq(words: list) -> dict:
     occurrences = {}
     for w in words:
         if w in occurrences:
             occurrences[w] = occurrences[w] + 1
         else:
             occurrences[w] = 1
-    return occurrences
+    print(occurrences)
 
-def term_freq(occurrences: dict) -> dict:
     frequency = {}
+    total = sum(occurrences.values())
     for w in occurrences:
-        frequency[w] = occurrences[w] / sum(occurrences.values())
+        frequency[w] = occurrences[w] / total
     return frequency
         
 
@@ -38,23 +38,22 @@ def main():
     print(words_a)
     print(words_b)
 
-    occurrences_A = get_occurrences(words_a)
-    occurrences_B = get_occurrences(words_b)
 
-    print(occurrences_A)
-    print(occurrences_B)
-
-    freq_A = term_freq(occurrences_A)
-    freq_B = term_freq(occurrences_B)
+    freq_A = get_term_freq(words_a)
+    freq_B = get_term_freq(words_b)
 
     print(freq_A)
     print(freq_B)
 
+    common = freq_A.keys() & freq_B.keys() 
+    print(common)
 
-    
-    
+    for w in common:
+        freq_A.pop(w)
+        freq_B.pop(w)
 
-    
+    print(list(freq_A.keys()))
+    print(list(freq_B.keys()))
 
 
 main()
