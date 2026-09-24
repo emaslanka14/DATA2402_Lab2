@@ -1,12 +1,36 @@
-def read_text(text: str, stopwords: set) -> list:
-    new_list = text.strip().split()
-    good_words = [w for w in new_list if w not in stopwords]
+import string
+
+def remove_stopwords(filename: str, stopwords: set) -> list:
+    """
+    Reads a textFile into a string and then removes 
+    all the stopwords present in the given stopwords set in that string
+    :param filename: The filename of the textfile
+    :param stopwords: a set containting all of the strings you wish to remove
+    :return: a list of strings without stopwords
+    """
+    try:
+        with open(filename, "r") as f:
+            text = f.read().lower()
+    except FileNotFoundError:
+        print(f"Error: file not found: {filename}")
+        return []
+    translator = str.maketrans('', '', string.punctuation)
+    cleanedText = str(text).translate(translator)
+    newList = cleanedText.strip().split()
+
+    good_words = [w for w in newList if w not in stopwords and w != '']
     return good_words
 
 def load_stopwords(filename: str) -> set:
-    with open(filename, "r") as f:
-        text = f.read().lower()
+    try:
+        with open(filename, "r") as f:
+            text = f.read().lower()
+    except FileNotFoundError:
+        print(f"Error: file not found: {filename}")
+        return set()
+
     return set(text.split())
+
 
 def get_term_freq(words: list) -> dict:
     occurrences = {}
@@ -15,7 +39,6 @@ def get_term_freq(words: list) -> dict:
             occurrences[w] = occurrences[w] + 1
         else:
             occurrences[w] = 1
-    print(occurrences)
 
     frequency = {}
     total = sum(occurrences.values())
@@ -27,13 +50,9 @@ def get_term_freq(words: list) -> dict:
 def main():
     stopwords = load_stopwords("stopwords.txt")   # returns a set
 
-    with open("textA.txt", "r") as f:
-        text_a = f.read().lower()
-    words_a = read_text(text_a, stopwords)         
+    words_a = remove_stopwords("textA.txt", stopwords)
+    words_b = remove_stopwords("textB.txt", stopwords)         
 
-    with open("textB.txt", "r") as f:
-        text_b = f.read().lower()
-    words_b = read_text(text_b, stopwords)
 
     print(words_a)
     print(words_b)
@@ -56,4 +75,5 @@ def main():
     print(list(freq_B.keys()))
 
 
-main()
+if __name__ == "__main__":
+    main()
