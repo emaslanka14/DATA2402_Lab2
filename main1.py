@@ -67,7 +67,7 @@ def word_freq_from_text_file(fileNameA:str, fileNameB:str=None) -> None:
     freq_A = get_term_freq(words_a)
 
     if fileNameB: 
-        words_b = remove_stopwords("textB.txt", stopwords)         
+        words_b = remove_stopwords(fileNameB, stopwords)         
         freq_B = get_term_freq(words_b)
 
         remove_common_words(freq_A, freq_B)
