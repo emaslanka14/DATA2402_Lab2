@@ -71,38 +71,23 @@ def word_freq_from_text_file(fileNameA:str, fileNameB:str=None) -> None:
         freq_B = get_term_freq(words_b)
 
         remove_common_words(freq_A, freq_B)
-
+    print(f"--------- Word Frequency for {fileNameA} ---------\n")
     print_dict(freq_A)
+    print("\n")
+
     if fileNameB:
+        print(f"--------- Word Frequency for {fileNameB} ---------\n")
         print_dict(freq_B)
+        print("\n")
 
 def print_dict(myDict: dict):
     for key, value in myDict.items():
-        print(f"Word: {key} Frequency {value}")
+        print(f"Word: {key} Frequency: {value}")
     
 
 
 def main():
-    stopwords = load_stopwords("stopwords.txt")   # returns a set
-
-    words_a = remove_stopwords("textA.txt", stopwords)
-    words_b = remove_stopwords("textB.txt", stopwords)         
-
-
-    print(words_a)
-    print(words_b)
-
-
-    freq_A = get_term_freq(words_a)
-    freq_B = get_term_freq(words_b)
-
-    print(freq_A)
-    print(freq_B)
-
-    remove_common_words(freq_A, freq_B)
-
-    print_dict(freq_A)
-    print_dict(freq_B)
+    word_freq_from_text_file("textA.txt", "textB.txt")
 
 
 if __name__ == "__main__": #Only run this if we are running this file itself
